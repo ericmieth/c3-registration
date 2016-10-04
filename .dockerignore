@@ -1,0 +1,4 @@
+*.swp
+*.go
+db.sh
+db.sql
