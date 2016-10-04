@@ -9,9 +9,7 @@ import (
 
 func ReturnSlotsTotal() int {
 
-	type config struct {
-		SlotsTotal string
-	}
+	var c Config
 
 	file, err := os.Open("config.json")
 	defer file.Close()
@@ -25,13 +23,12 @@ func ReturnSlotsTotal() int {
 		log.Fatal(err)
 	}
 
-	configuration := config{}
-	err = decoder.Decode(&configuration)
+	err = decoder.Decode(&c)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	slotsTotalInt, err := strconv.Atoi(configuration.SlotsTotal)
+	slotsTotalInt, err := strconv.Atoi(c.SlotsTotal)
 	if err != nil {
 		log.Print(err)
 	}

@@ -10,9 +10,7 @@ import (
 
 func ReturnLoginExpireMinutes() time.Duration {
 
-	type config struct {
-		LoginExpireMinutes string
-	}
+	var c Config
 
 	//file, err := os.Open("../config.json") // for unit testing
 	file, err := os.Open("config.json")
@@ -22,13 +20,12 @@ func ReturnLoginExpireMinutes() time.Duration {
 	}
 	defer file.Close()
 
-	configuration := config{}
-	err = decoder.Decode(&configuration)
+	err = decoder.Decode(&c)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	duration, err := strconv.Atoi(configuration.LoginExpireMinutes)
+	duration, err := strconv.Atoi(c.LoginExpireMinutes)
 	if err != nil {
 		log.Print(err)
 	}

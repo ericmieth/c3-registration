@@ -8,9 +8,7 @@ import (
 
 func ReturnCongressNumber() string {
 
-	type config struct {
-		CongressNumber string
-	}
+	var c Config
 
 	file, err := os.Open("config.json")
 	defer file.Close()
@@ -24,12 +22,11 @@ func ReturnCongressNumber() string {
 		log.Fatal(err)
 	}
 
-	configuration := config{}
-	err = decoder.Decode(&configuration)
+	err = decoder.Decode(&c)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return configuration.CongressNumber
+	return c.CongressNumber
 
 }

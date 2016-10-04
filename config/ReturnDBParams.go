@@ -8,13 +8,7 @@ import (
 
 func ReturnDBParams() map[string]string {
 
-	type config struct {
-		DBHost string
-		DBPort string
-		DBName string
-		DBUser string
-		DBPass string
-	}
+	var c Config
 
 	//file, err := os.Open("../config.json") // for unit testing
 	file, err := os.Open("config.json")
@@ -24,18 +18,17 @@ func ReturnDBParams() map[string]string {
 	}
 	defer file.Close()
 
-	configuration := config{}
-	err = decoder.Decode(&configuration)
+	err = decoder.Decode(&c)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	configMap := make(map[string]string)
-	configMap["DBHost"] = configuration.DBHost
-	configMap["DBPort"] = configuration.DBPort
-	configMap["DBName"] = configuration.DBName
-	configMap["DBUser"] = configuration.DBUser
-	configMap["DBPass"] = configuration.DBPass
+	configMap["DBHost"] = c.DBHost
+	configMap["DBPort"] = c.DBPort
+	configMap["DBName"] = c.DBName
+	configMap["DBUser"] = c.DBUser
+	configMap["DBPass"] = c.DBPass
 
 	return configMap
 
