@@ -1,0 +1,15 @@
+{{define "error-message-section"}}
+<!-- Error Section -->
+<section id="error" class="error-message-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>Something went wrong.</h1>
+				<p>{{formatError .}}</p>
+				<p><strong>Please scroll down to try again.</strong></p>
+				{{/*template "page-scroll-buttons" */}}
+			</div>
+		</div>
+	</div>
+</section>
+{{end}}

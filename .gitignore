@@ -1,0 +1,8 @@
+.swp
+*.swp
+config.json
+db.sh
+db.sql
+docker-compose.yml
+uploads/
+static/keys/

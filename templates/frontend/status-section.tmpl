@@ -1,0 +1,34 @@
+{{define "status-message-section"}}
+<!-- Status Section -->
+<section id="status" class="status-message-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>This is the status of your registration request.</h1>
+				<p>Can I take part?
+				{{if .StatusWaitingList}}
+					<strong>Maybe.</strong> You are on the waiting list. You will get a mail if this is changing.
+					{{else}}
+					<strong>Yes.</strong> Your request is approved.
+					{{end}}
+
+				</p>
+				<p>Have I already uploaded my ticket?
+					{{if .StatusTicketUploaded}}
+					<strong>Yes.</strong>
+					{{else}}
+					<strong>No.</strong>
+					{{end}}
+				</p>
+				<p>Is the money transfered to my bank account?
+				{{ if .StatusPayment}}
+					<strong>Yes.</strong>
+					{{else}}
+					<strong>No, not yet.</strong>
+					{{end}}
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+{{end}}

@@ -1,0 +1,46 @@
+{{define "request-table"}}
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th class="col-md-1">status</th>
+			<th class="col-md-1">first name</th>
+			<th class="col-md-2">last name</th>
+			<th class="col-md-3">mail address</th>
+			<th class="col-md-1">IBAN</th>
+			<th class="col-md-2">registration time</th>
+			<th class="col-md-2"></th>
+		</tr>
+	</thead>
+	<tbody>
+		{{range .}}
+		<tr>
+			<td>
+				{{if .StatusTicketUploaded}}
+				<a href="/uploads/{{.VerificationID}}.pdf">
+					<span class="glyphicon glyphicon-upload icon-success"></span>
+				</a>
+				{{else}}
+				<span class="glyphicon glyphicon-upload icon-pending"></span>
+				{{end}}
+				{{if .StatusPayment}}
+				<span class="glyphicon glyphicon-euro icon-success"></span>
+				{{else}}
+				<span class="glyphicon glyphicon-euro icon-pending"></span>
+				{{end}}
+			</td>
+			<td>{{.FirstName}}</td>
+			<td>{{.LastName}}</td>
+			<td>{{.MailAddress}}</td>
+			<td><code>{{.IBAN}}</code></td>
+			<td>{{formatDate .RegistrationDate}}</td>
+			<td>
+				<a class="btn btn-danger btn-xs" href="/admin/delete/?id={{.ID}}" role="button">delete</a>
+				{{if not .StatusPayment}}
+				<a class="btn btn-default btn-xs" href="/admin/transfer/?id={{.ID}}" role="button">money transfered</a>
+				{{end}}
+			</td>
+		</tr>
+		{{end}}
+	</tbody>
+</table>
+{{end}}

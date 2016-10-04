@@ -1,0 +1,284 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>{{.CongressNumber}}c3 registration fsinf uni leipzig</title>
+
+		<!-- Bootstrap Core CSS -->
+		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/css/bootstrap-modification.css" rel="stylesheet">
+
+		<!-- Custom CSS -->
+		<link href="/static/css/scrolling-nav.css" rel="stylesheet">
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+	</head>
+
+	<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+	<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header page-scroll">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand page-scroll" href="#page-top">{{.CongressNumber}}c3 registration</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse navbar-ex1-collapse">
+					<ul class="nav navbar-nav">
+						<!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+						<li class="hidden">
+							<a class="page-scroll" href="#page-top"></a>
+						</li>
+						<li>
+							<a class="page-scroll" href="#subscribe">subscribe</a>
+						</li>
+						<li>
+							<a class="page-scroll" href="#revoke">revoke</a>
+						</li>
+						<li>
+							<a class="page-scroll" href="#status-request">status request</a>
+						</li>
+						<li>
+							<a class="page-scroll" href="#upload-ticket">upload ticket</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a class="page-scroll" target="_blank" href="https://github.com/ericmieth/c3-registration">view on github</a>
+						</li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container -->
+		</nav>
+
+		<!-- Intro Section -->
+		<section id="intro" class="intro-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1>registration for the {{.CongressNumber}}th chaos communication congress ({{.CongressNumber}}c3)</h1>
+						<p>some general information</p>
+						<p>steps for a sponsorship:
+						<!--<ul class="list-group">
+							<li class="list-group-item">subscribe</li>
+							<li class="list-group-item">buy your ticket, visit the congress</li>
+							<li class="list-group-item">upload your ticket</li>
+						</ul>-->
+						</p>
+						<p><strong>There are {{.SlotsAvailable}} slots available.
+							{{if gt .WaitingListQueue 0}}<br>(Persons on waiting list: {{.WaitingListQueue}}){{end}}</strong></p>
+						<a class="btn btn-default page-scroll" href="#subscribe">subscribe</a>
+						<a class="btn btn-default page-scroll" href="#revoke">revoke</a>
+						<a class="btn btn-default page-scroll" href="#status-request">status request</a>
+						<a class="btn btn-default page-scroll" href="#upload-ticket">upload ticket</a>
+					</div>
+					<p>This page is using <a href="https://github.com/BlackrockDigital/startbootstrap-scrolling-nav">github.com/BlackrockDigital/startbootstrap-scrolling-nav</a> as a bootstrap template.
+				</div>
+			</div>
+		</section>
+
+		<span id="messages">
+		</span>
+
+		{{with .ErrorMessage}}
+		{{template "error-message-section" .}}
+		{{end}}
+
+		{{with .SuccessMessage}}
+		{{template "success-message-section" .}}
+		{{end}}
+
+		{{with .StatusMessage}}
+		{{template "status-message-section" .}}
+		{{end}}
+
+		<!-- Subscribe Section -->
+		<section id="subscribe" class="subscribe-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1>subscribe</h1>
+						<p>Please insert your first name, last name and your university mail address (something@studserv.uni-leipzig.de). Other addresses won't be accepted.
+						<form role="form" action="/#messages" method="post" enctype="multipart/form-data" class="form-horizontal">
+							<input type="hidden" name="action" value="subscribe">
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="first-name" >first name:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="first-name" name="first-name" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="last-name">last name:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="last-name" name="last-name" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="mail-address" >mail address:</label>
+								<div class="col-sm-4">
+									<input type="email" class="form-control" id="mail-address" name="mail-address" pattern=".+@studserv.uni-leipzig.de" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="iban" >IBAN:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="iban" name="iban" pattern="[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-1 col-sm-offset-4">
+									<button type="submit" class="btn btn-default">submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Unsubscribe Section -->
+		<section id="revoke" class="revoke-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1>revoke</h1>
+						<p>Fill this form to cancel your request. This cannot be undone.</p>
+						<form role="form" action="/#messages" method="post" enctype="multipart/form-data" class="form-horizontal">
+							<input type="hidden" name="action" value="revoke">
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="verification-id" >verification ID:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="verification-id" name="verification-id" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="mail-address" >mail address:</label>
+								<div class="col-sm-4">
+									<input type="email" class="form-control" id="mail-address" name="mail-address" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-1 col-sm-offset-4">
+									<button type="submit" class="btn btn-danger">submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Processing Status Section -->
+		<section id="status-request" class="status-request-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1>show the processing status of your request</h1>
+						<p>Fill out this form to get some status information of your requst.</p>
+						<form role="form" action="/#messages" method="post" enctype="multipart/form-data" class="form-horizontal">
+							<input type="hidden" name="action" value="status-request">
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="verification-id" >verification ID:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="verification-id" name="verification-id" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="mail-address" >mail address:</label>
+								<div class="col-sm-4">
+									<input type="email" class="form-control" id="mail-address" name="mail-address" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-1 col-sm-offset-4">
+									<button type="submit" class="btn btn-default">submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Upload Section -->
+		<section id="upload-ticket" class="upload-ticket-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1>upload your ticket</h1>
+						<p>It's nessesary to upload your congress ticket for accounting. This can be done after the congress is finished.</p>
+						<form role="form" action="/#messages" method="post" enctype="multipart/form-data" class="form-horizontal">
+							<input type="hidden" name="action" value="upload-ticket">
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="verification-id" >verification ID:</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="verification-id" name="verification-id" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="mail-address" >mail address:</label>
+								<div class="col-sm-4">
+									<input type="email" class="form-control" id="mail-address" name="mail-address" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-4" for="upload-ticket" >choose your ticket:</label>
+								<div class="col-sm-4">
+									<input type="file" class="filestyle" id="file" name="file" accept="application/pdf" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-1 col-sm-offset-4">
+									<button type="submit" class="btn btn-default">submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+
+		<!-- jQuery -->
+		<script src="/static/js/jquery.js"></script>
+
+		<!-- Bootstrap Core JavaScript -->
+		<script src="/static/js/bootstrap.min.js"></script>
+
+		<!-- Scrolling Nav JavaScript -->
+		<script src="/static/js/jquery.easing.min.js"></script>
+		<script src="/static/js/scrolling-nav.js"></script>
+
+		<!-- FileStyle JavaScript-->
+		<script type="text/javascript" src="/static/js/bootstrap-filestyle.min.js"></script>
+
+	</body>
+
+</html>
+{{end}}
