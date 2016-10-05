@@ -26,6 +26,6 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		subscription.Delete(db, subscriptionIDFromURLInt)
 	}
 
-	http.Redirect(w, r, "/admin", http.StatusFound)
+	http.Redirect(w, r, "admin", http.StatusFound)
 	return
 }

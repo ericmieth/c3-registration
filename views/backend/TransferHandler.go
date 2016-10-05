@@ -26,6 +26,6 @@ func TransferHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		subscription.Transfer(db, subscriptionIDFromURLInt)
 	}
 
-	http.Redirect(w, r, "/admin", http.StatusFound)
+	http.Redirect(w, r, "admin", http.StatusFound)
 	return
 }
