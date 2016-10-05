@@ -10,9 +10,8 @@ func renderMailTemplate(s Subscription, templateName string) []byte {
 
 	buf := new(bytes.Buffer)
 
-	err := template.Must(
-		template.New(templateName).ParseGlob("templates/mail/*.tmpl")).
-		ExecuteTemplate(buf, templateName, s)
+	t, err := template.Must(
+		template.ParseFiles("templates/mail/"+templateName+".tmpl")).Execute(buf, s)
 	if err != nil {
 		log.Print(err)
 	}
