@@ -8,6 +8,6 @@ import (
 
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	user.InvalidateCookieWithToken(w)
-	http.Redirect(w, r, "admin", http.StatusFound)
+	http.Redirect(w, r, "/admin", http.StatusFound)
 
 }

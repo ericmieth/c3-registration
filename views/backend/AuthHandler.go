@@ -13,7 +13,7 @@ import (
 func AuthHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 	if r.Method != "POST" {
-		http.Redirect(w, r, "admin", http.StatusFound)
+		http.Redirect(w, r, "/admin", http.StatusFound)
 		return
 	}
 	mailAddress := strings.ToLower(strings.TrimSpace(r.FormValue("mail-address")))
@@ -24,6 +24,6 @@ func AuthHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		// the credentials are valid, so create a jwt
 		user.SetCookieWithToken(w, r, mailAddress, db)
 	}
-	http.Redirect(w, r, "admin", http.StatusFound)
+	http.Redirect(w, r, "/admin", http.StatusFound)
 
 }

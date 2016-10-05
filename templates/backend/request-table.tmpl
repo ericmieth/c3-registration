@@ -34,9 +34,9 @@
 			<td><code>{{.IBAN}}</code></td>
 			<td>{{formatDate .RegistrationDate}}</td>
 			<td>
-				<a class="btn btn-danger btn-xs" href="admin/delete/?id={{.ID}}" role="button">delete</a>
+				<a class="btn btn-danger btn-xs" href="/admin/delete/?id={{.ID}}" role="button">delete</a>
 				{{if not .StatusPayment}}
-				<a class="btn btn-default btn-xs" href="admin/transfer/?id={{.ID}}" role="button">money transfered</a>
+				<a class="btn btn-default btn-xs" href="/admin/transfer/?id={{.ID}}" role="button">money transfered</a>
 				{{end}}
 			</td>
 		</tr>
