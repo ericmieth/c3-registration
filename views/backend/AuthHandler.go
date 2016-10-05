@@ -24,6 +24,6 @@ func AuthHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		// the credentials are valid, so create a jwt
 		user.SetCookieWithToken(w, r, mailAddress, db)
 	}
-	http.Redirect(w, r, "admin", http.StatusFound)
+	http.Redirect(w, r, "/c3/admin", http.StatusFound)
 
 }
