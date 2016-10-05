@@ -15,10 +15,16 @@ func Revoke(db *sql.DB, verificationID, mailAddress string) error {
 	}
 
 	var subscriptionID int
-	db.QueryRow(`
+	err = db.QueryRow(`
 		SELECT id
 		FROM subscriptions
 		WHERE mail_address = $1`, mailAddress).Scan(&subscriptionID)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	sendMail(db, subscriptionID, "revoke")
 
 	_, err = db.Exec(`
 		DELETE FROM subscriptions
@@ -31,7 +37,6 @@ func Revoke(db *sql.DB, verificationID, mailAddress string) error {
 	}
 
 	deleteFile(verificationID)
-	sendMail(db, subscriptionID, "revoke")
 
 	// check if someone can move up
 	if SlotsAvailable(db) > 0 {
