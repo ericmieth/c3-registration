@@ -15,7 +15,7 @@ func CheckAuth(f HandlerFuncDB, db *sql.DB) http.HandlerFunc {
 			renewJWT(w, r)
 			f(w, r, db)
 		} else {
-			http.Redirect(w, r, "admin/login/", http.StatusFound)
+			http.Redirect(w, r, r.URL.Path+"/admin/login/", http.StatusFound)
 		}
 	}
 }
