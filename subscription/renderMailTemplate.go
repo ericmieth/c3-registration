@@ -13,8 +13,7 @@ func renderMailTemplate(s Subscription, templateName string) []byte {
 	pathPrefix := "templates/mail/"
 
 	err := template.Must(
-		template.New(templateName).
-			ParseFiles(pathPrefix+templateName+".tmpl")).
+		ParseFiles(pathPrefix+templateName+".tmpl")).
 		Execute(buf, s)
 	if err != nil {
 		log.Print(err)
