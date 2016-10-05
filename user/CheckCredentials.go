@@ -28,12 +28,6 @@ func CheckCredentials(mailAddress string, passphrase string, db *sql.DB) bool {
 
 	u.MailAddress = mailAddress
 
-	// if there is an empty field in database
-	if u.PassHash64 == "" || u.Salt64 == "" {
-		log.Print(err)
-		return false
-	}
-
 	u.PassHash, err = base64.StdEncoding.DecodeString(u.PassHash64)
 	if err != nil {
 		log.Print(err)
