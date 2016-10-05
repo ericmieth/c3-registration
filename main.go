@@ -41,9 +41,9 @@ func main() {
 	defer db.Close()
 
 	http.NewServeMux()
-	http.Handle("/static/css/", http.StripPrefix("/static/css/", http.FileServer(http.Dir("static/css/"))))
-	http.Handle("/static/fonts/", http.StripPrefix("/static/fonts/", http.FileServer(http.Dir("static/fonts/"))))
-	http.Handle("/static/js/", http.StripPrefix("/static/js/", http.FileServer(http.Dir("static/js/"))))
+	http.Handle("static/css/", http.StripPrefix("static/css/", http.FileServer(http.Dir("static/css/"))))
+	http.Handle("static/fonts/", http.StripPrefix("static/fonts/", http.FileServer(http.Dir("static/fonts/"))))
+	http.Handle("static/js/", http.StripPrefix("static/js/", http.FileServer(http.Dir("static/js/"))))
 
 	// backend pages
 	http.HandleFunc("/admin/auth/", DBWrapper(bv.AuthHandler, db))
