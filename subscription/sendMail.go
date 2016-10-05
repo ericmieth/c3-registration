@@ -8,7 +8,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func sendMail(db *sql.DB, requestID int, templateName string) {
+func sendMail(db *sql.DB, subscriptionID int, templateName string) {
 
 	var s Subscription
 
@@ -24,7 +24,7 @@ func sendMail(db *sql.DB, requestID int, templateName string) {
 			status_payment,
 			iban
 		FROM subscriptions AS s
-		WHERE s.id = $1`, requestID).Scan(
+		WHERE s.id = $1`, subscriptionID).Scan(
 		&s.FirstName,
 		&s.LastName,
 		&s.MailAddress,
