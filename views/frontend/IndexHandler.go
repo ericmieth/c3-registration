@@ -31,26 +31,28 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 				len(mailAddress) == 0 ||
 				len(iban) == 0 {
 				err = errors.New("no empty fields allowed.")
-			}
+			} else {
 
-			verificationID, e := subscription.Subscribe(db, firstName, lastName, mailAddress, iban)
-			err = e
-			if err == nil {
-				suc = "Your request was transmitted succesfuly. Your verification ID is: " + verificationID
+				verificationID, e := subscription.Subscribe(db, firstName, lastName, mailAddress, iban)
+				err = e
+				if err == nil {
+					suc = "Your request was transmitted succesfuly. Your verification ID is: " + verificationID
+				}
 			}
 
 		case action == "revoke":
 			verificationID := strings.TrimSpace(r.FormValue("verification-id"))
 			mailAddress := strings.TrimSpace(r.FormValue("mail-address"))
 
-			err = subscription.Revoke(db, verificationID, mailAddress)
-			if err == nil {
-				suc = "Your request is revoked. All your data is deleted."
-			}
-
 			if len(verificationID) == 0 ||
 				len(mailAddress) == 0 {
 				err = errors.New("no empty fields allowed.")
+			} else {
+
+				err = subscription.Revoke(db, verificationID, mailAddress)
+				if err == nil {
+					suc = "Your request is revoked. All your data is deleted."
+				}
 			}
 
 		case action == "status-request":
@@ -60,12 +62,13 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			if len(verificationID) == 0 ||
 				len(mailAddress) == 0 {
 				err = errors.New("no empty fields allowed.")
-			}
-			subscription, errorStatusRequest := subscription.StatusRequest(db, verificationID, mailAddress)
-			if errorStatusRequest == nil {
-				s = subscription
 			} else {
-				err = errorStatusRequest
+				subscription, errorStatusRequest := subscription.StatusRequest(db, verificationID, mailAddress)
+				if errorStatusRequest == nil {
+					s = subscription
+				} else {
+					err = errorStatusRequest
+				}
 			}
 
 		case action == "upload-ticket":
@@ -75,22 +78,22 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			if len(verificationID) == 0 ||
 				len(mailAddress) == 0 {
 				err = errors.New("no empty fields allowed.")
-			}
-
-			uploadFile, uploadFileHeader, uploadError := r.FormFile("file")
-			defer uploadFile.Close()
-
-			if uploadError != nil {
-				err = uploadError
 			} else {
-				suc = "Your ticket was uploaded succesfuly."
-			}
 
-			uploadError = subscription.UploadTicket(w, r, db, verificationID, mailAddress, uploadFile, uploadFileHeader)
-			if uploadError != nil {
-				err = uploadError
+				uploadFile, uploadFileHeader, uploadError := r.FormFile("file")
+				defer uploadFile.Close()
+
+				if uploadError != nil {
+					err = uploadError
+				} else {
+					suc = "Your ticket was uploaded succesfuly."
+				}
+
+				uploadError = subscription.UploadTicket(w, r, db, verificationID, mailAddress, uploadFile, uploadFileHeader)
+				if uploadError != nil {
+					err = uploadError
+				}
 			}
-		default:
 		}
 	}
 
