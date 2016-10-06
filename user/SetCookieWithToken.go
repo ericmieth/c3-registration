@@ -42,9 +42,8 @@ func SetCookieWithToken(w http.ResponseWriter, r *http.Request, mailAddress stri
 		Value:      tokenString,
 		Path:       "/",
 		RawExpires: "0",
-		//Secure:     true,
-		Secure:   false,
-		HttpOnly: true,
+		Secure:     true,
+		HttpOnly:   true,
 	})
 
 }

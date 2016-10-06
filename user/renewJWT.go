@@ -52,9 +52,8 @@ func renewJWT(w http.ResponseWriter, r *http.Request) {
 		Value:      tokenString,
 		Path:       "/",
 		RawExpires: "0",
-		//Secure:     true,
-		Secure:   false,
-		HttpOnly: true,
+		Secure:     true,
+		HttpOnly:   true,
 	})
 
 }
