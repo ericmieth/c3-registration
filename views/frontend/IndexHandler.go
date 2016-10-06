@@ -5,6 +5,7 @@ import (
 	"github.com/ericmieth/c3-registration/subscription"
 
 	"database/sql"
+	"errors"
 	"net/http"
 	"strings"
 )
@@ -25,6 +26,13 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			mailAddress := strings.TrimSpace(r.FormValue("mail-address"))
 			iban := strings.TrimSpace(r.FormValue("iban"))
 
+			if len(firstName) == 0 ||
+				len(lastName) == 0 ||
+				len(mailAddress) == 0 ||
+				len(iban) == 0 {
+				err = errors.New("no empty fields allowed.")
+			}
+
 			verificationID, e := subscription.Subscribe(db, firstName, lastName, mailAddress, iban)
 			err = e
 			if err == nil {
@@ -40,10 +48,19 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 				suc = "Your request is revoked. All your data is deleted."
 			}
 
+			if len(verificationID) == 0 ||
+				len(mailAddress) == 0 {
+				err = errors.New("no empty fields allowed.")
+			}
+
 		case action == "status-request":
 			verificationID := strings.TrimSpace(r.FormValue("verification-id"))
 			mailAddress := strings.TrimSpace(r.FormValue("mail-address"))
 
+			if len(verificationID) == 0 ||
+				len(mailAddress) == 0 {
+				err = errors.New("no empty fields allowed.")
+			}
 			subscription, errorStatusRequest := subscription.StatusRequest(db, verificationID, mailAddress)
 			if errorStatusRequest == nil {
 				s = subscription
@@ -54,6 +71,11 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		case action == "upload-ticket":
 			verificationID := strings.TrimSpace(r.FormValue("verification-id"))
 			mailAddress := strings.TrimSpace(r.FormValue("mail-address"))
+
+			if len(verificationID) == 0 ||
+				len(mailAddress) == 0 {
+				err = errors.New("no empty fields allowed.")
+			}
 
 			uploadFile, uploadFileHeader, uploadError := r.FormFile("file")
 			defer uploadFile.Close()
@@ -68,6 +90,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			if uploadError != nil {
 				err = uploadError
 			}
+		default:
 		}
 	}
 
