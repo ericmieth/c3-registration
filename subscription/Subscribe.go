@@ -11,7 +11,7 @@ import (
 )
 
 // handles a subscription and returns the verification ID an an error
-func Subscribe(db *sql.DB, firstName, lastName, mailAddress, iban string) (string, error) {
+func Subscribe(db *sql.DB, firstName, lastName, mailAddress, IBAN string) (string, error) {
 
 	// return, when its not the universitary mail address
 	isUniversityMail := regexp.MustCompile(".+@studserv.uni-leipzig.de")
@@ -22,13 +22,13 @@ func Subscribe(db *sql.DB, firstName, lastName, mailAddress, iban string) (strin
 	// check IBAN
 
 	var ibanValid bool
-	var ibanValid, err, ibanWellFormated = iban.IsCorrectIban(iban, true)
+	ibanValid, ibanWellFormated, err := iban.IsCorrectIban(IBAN, true)
 	if err != nil {
-		return err
+		return "", err
 	} else if !ibanValid {
-		return errors.New("Your IBAN is invalid.")
+		return "", errors.New("Your IBAN is invalid.")
 	} else {
-		iban = ibanWellFormated
+		IBAN = ibanWellFormated
 	}
 
 	now := time.Now()
@@ -46,7 +46,7 @@ func Subscribe(db *sql.DB, firstName, lastName, mailAddress, iban string) (strin
 	// insert into database
 
 	var insertID int
-	err := db.QueryRow(`
+	err = db.QueryRow(`
 		INSERT INTO subscriptions (
 			first_name,
 			last_name,
@@ -64,7 +64,7 @@ func Subscribe(db *sql.DB, firstName, lastName, mailAddress, iban string) (strin
 		now,
 		verificationID,
 		statusWaitingList,
-		iban).Scan(&insertID)
+		IBAN).Scan(&insertID)
 
 	if err != nil {
 		return "", err
