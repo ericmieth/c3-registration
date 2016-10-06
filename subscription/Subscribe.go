@@ -2,6 +2,7 @@ package subscription
 
 import (
 	"errors"
+	"github.com/go-pascal/iban"
 	"regexp"
 	"time"
 
@@ -16,6 +17,18 @@ func Subscribe(db *sql.DB, firstName, lastName, mailAddress, iban string) (strin
 	isUniversityMail := regexp.MustCompile(".+@studserv.uni-leipzig.de")
 	if !isUniversityMail.MatchString(mailAddress) {
 		return "", errors.New("This is not an universitary mail address.")
+	}
+
+	// check IBAN
+
+	var ibanValid bool
+	var ibanValid, err, ibanWellFormated = iban.IsCorrectIban(iban, true)
+	if err != nil {
+		return err
+	} else if !ibanValid {
+		return errors.New("Your IBAN is invalid.")
+	} else {
+		iban = ibanWellFormated
 	}
 
 	now := time.Now()
