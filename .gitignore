@@ -1,5 +1,6 @@
 *.swp
 config.json
+todo
 db.sh
 db.sql
 docker-compose.yml

@@ -67,7 +67,7 @@ func Subscribe(db *sql.DB, firstName, lastName, mailAddress, IBAN string) (strin
 		IBAN).Scan(&insertID)
 
 	if err != nil {
-		return "", err
+		return "", errors.New("This mail address is already registered")
 	}
 
 	if statusWaitingList {
