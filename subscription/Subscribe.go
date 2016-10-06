@@ -14,7 +14,7 @@ import (
 func Subscribe(db *sql.DB, firstName, lastName, mailAddress, IBAN string) (string, error) {
 
 	// return, when its not the universitary mail address
-	isUniversityMail := regexp.MustCompile(".+@studserv.uni-leipzig.de")
+	isUniversityMail := regexp.MustCompile("([:alpha:]{3}[:digit:]{2}[:alpha:]{3}|[:alpha:]{2}[:digit:]{2}[:alpha:]{4})@studserv.uni-leipzig.de")
 	if !isUniversityMail.MatchString(mailAddress) {
 		return "", errors.New("This is not an universitary mail address.")
 	}
