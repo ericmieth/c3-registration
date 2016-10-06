@@ -45,7 +45,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			mailAddress := strings.TrimSpace(r.FormValue("mail-address"))
 
 			subscription, errorStatusRequest := subscription.StatusRequest(db, verificationID, mailAddress)
-			if err == nil {
+			if errorStatusRequest == nil {
 				s = subscription
 			} else {
 				err = errorStatusRequest
